@@ -157,8 +157,9 @@
                   <tbody>
                     <tr v-for="(item, index) in invoiceItems" :key="index">
                       <td>{{ item.description }}</td>
-                      <td>{{ item.quantity }}</td>
                       <td>{{ item.price }}</td>
+                      <td>{{ item.quantity }}</td>
+
                       <td v-if="item.quantity">
                         {{ item.quantity * item.price }}
                       </td>
