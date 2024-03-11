@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 import Invoice from "../Api/Invoice.js";
 import Client from "../Api/Client.js";
 import Car from "../Api/Car.js";
-import Setting from "../Api/Setting.js";
 
 export default createStore({
   state: {
@@ -18,7 +17,6 @@ export default createStore({
     invoices: [],
     clients: [],
     cars: [],
-    settings: {},
   },
   getters: {
     isAuthenticated(state) {
@@ -67,12 +65,6 @@ export default createStore({
 
     GET_CARS(state, cars) {
       state.cars = cars;
-    },
-
-    GET_SETTING(state, settings) {
-      state.settings = settings[0];
-      // localStorage.removeItem("settings");
-      localStorage.setItem("settings", JSON.stringify(state.settings));
     },
 
     SET_USER_INFO(state, data) {
@@ -124,11 +116,6 @@ export default createStore({
     async getCars({ commit }) {
       Car.getCars().then((response) => {
         commit("GET_CARS", response.data);
-      });
-    },
-    async getSettings({ commit }, payload) {
-      Setting.getSettings(payload).then((response) => {
-        commit("GET_SETTING", response.data);
       });
     },
 

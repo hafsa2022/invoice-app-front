@@ -63,11 +63,10 @@ export default {
     this.$store.dispatch("getInvoices", user.id);
     this.$store.dispatch("getClients");
     this.$store.dispatch("getCars");
-    this.$store.dispatch("getSettings", user.compagny_id);
     this.label =
       localStorage.getItem("lang") == "en"
-        ? "Search by name"
-        : "Rechercher par nom";
+        ? "Search by date"
+        : "Rechercher par date";
   },
   computed: {
     ...mapState({

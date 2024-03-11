@@ -6,10 +6,4 @@ export default {
   async updateInfo(form) {
     return await Api.post("updateinfo", form);
   },
-  // async signUp(form) {
-  //   return await Api.post("signup", form);
-  // },
-  // async logOut() {
-  //   return await Api.post("logout");
-  // },
 };

@@ -155,6 +155,7 @@
                             required
                             :error-messages="amountError"
                             @input="resetErrorValue"
+                            disabled
                           />
                         </v-col>
                         <v-col cols="12" class="pa-0">
