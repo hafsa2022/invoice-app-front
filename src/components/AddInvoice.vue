@@ -89,7 +89,6 @@
                   type="text"
                   color="#f9af23"
                   variant="outlined"
-                  placeholder="Advance"
                   :error-messages="advanceError"
                   @input="resetErrorValue"
                 />
