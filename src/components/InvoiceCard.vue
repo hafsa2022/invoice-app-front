@@ -12,10 +12,12 @@
         <p>Date : {{ invoice.date }}</p>
         <p v-if="clientName">Client : {{ clientName }}</p>
         <p v-else></p>
-        <p v-if="invoice.dueDate">Due Date : {{ invoice.dueDate }}</p>
+        <p v-if="invoice.dueDate">
+          {{ $t("dueDate") }} : {{ invoice.dueDate }}
+        </p>
         <p v-else></p>
-        <p>Advance : {{ invoice.advance }}</p>
-        <p>Total : {{ invoice.amount }}</p>
+        <p>{{ $t("advance") }} : {{ invoice.advance }}</p>
+        <p>{{ $t("amount") }} : {{ invoice.amount }}</p>
 
         <v-card-actions class="mx-auto" height="50">
           <v-row class="" justify="center"
@@ -59,7 +61,7 @@
                     >
                       <v-card color="#ffde59" dark>
                         <v-card-text>
-                          Updating Invoice ...
+                          <!-- Updating Invoice ... -->
                           <v-progress-linear
                             indeterminate
                             color="white"
@@ -70,7 +72,9 @@
                     </v-dialog>
                     <v-container>
                       <v-row class="text-center"
-                        ><v-col cols="12"><h3>Edit Invoice</h3></v-col></v-row
+                        ><v-col cols="12"
+                          ><h3>{{ $t("addInvoice") }}</h3></v-col
+                        ></v-row
                       >
                       <v-row>
                         <v-col cols="12" class="pa-0">
@@ -87,7 +91,7 @@
                           ></v-select>
                         </v-col>
                         <v-col cols="12" class="pa-0">
-                          <label for="name">Car</label>
+                          <label for="name">{{ $t("car") }}</label>
                           <v-select
                             :items="cars"
                             v-model="form.car_id"
@@ -114,7 +118,7 @@
                           />
                         </v-col>
                         <v-col cols="12" class="pa-0">
-                          <label for="name">Due Date</label>
+                          <label for="name">{{ $t("dueDate") }}</label>
                           <v-text-field
                             id="name"
                             v-model="form.dueDate"
@@ -126,7 +130,7 @@
                           />
                         </v-col>
                         <v-col cols="12" class="pa-0">
-                          <label for="advance">Advance</label>
+                          <label for="advance">{{ $t("advance") }}</label>
                           <v-text-field
                             id="advance"
                             v-model="form.advance"
@@ -134,13 +138,12 @@
                             type="text"
                             color="#f9af23"
                             variant="outlined"
-                            placeholder="Advance"
                             :error-messages="advanceError"
                             @input="resetErrorValue"
                           />
                         </v-col>
                         <v-col cols="12" class="pa-0">
-                          <label for="amount">Amount</label>
+                          <label for="amount">{{ $t("amount") }}</label>
                           <v-text-field
                             id="amount"
                             v-model="form.amount"
@@ -155,7 +158,7 @@
                           />
                         </v-col>
                         <v-col cols="12" class="pa-0">
-                          <label for="name">Payment Method</label>
+                          <label for="name">{{ $t("payMeth") }}</label>
                           <v-select
                             :items="paymentMethods"
                             v-model="form.paymentMethod"
@@ -171,29 +174,31 @@
                         <v-col cols="12" class="pa-0">
                           <v-checkbox
                             v-model="form.paidStatus"
-                            label="Paid Status"
+                            :label="label"
                             :error-messages="paidStatusError"
                             @input="resetErrorValue"
                           ></v-checkbox>
                         </v-col>
-
-                        <v-text-field
-                          v-model="form.memo"
-                          label="Memo"
-                          variant="outlined"
-                          class="mt-1 rounded-lg"
-                          type="text"
-                          color="#f9af23"
-                        ></v-text-field>
+                        <v-col cols="12" class="pa-0">
+                          <label for="">{{ $t("memo") }}</label>
+                          <v-text-field
+                            v-model="form.memo"
+                            variant="outlined"
+                            class="mt-1 rounded-lg"
+                            type="text"
+                            color="#f9af23"
+                          ></v-text-field>
+                        </v-col>
 
                         <v-col cols="12" class="pa-0">
-                          <h3>Invoice Items:</h3>
+                          <h3>{{ $t("invItems") }}:</h3>
                           <v-table v-if="invoiceItems.length > 0">
                             <thead>
                               <tr>
-                                <th class="text-left">Description</th>
-                                <th class="text-left">Quantity</th>
-                                <th class="text-left">Unit Price</th>
+                                <th class="text-left">{{ $t("des") }}</th>
+
+                                <th class="text-left">{{ $t("price") }}</th>
+                                <th class="text-left">{{ $t("qt") }}</th>
                                 <th class="text-left">Total</th>
                                 <th class="text-left"></th>
                               </tr>
@@ -241,7 +246,7 @@
                                       color="#f9af23"
                                       @click="displayingEditItemDialog = true"
                                       min-width="164"
-                                      >Add Item
+                                      >{{ $t("addItem") }}
                                     </v-btn>
                                   </v-col>
                                 </v-row>
@@ -251,25 +256,25 @@
                                   <v-container>
                                     <v-row
                                       ><v-col cols="12" sm="6">
+                                        <label for="">{{ $t("des") }}</label>
                                         <v-text-field
                                           v-model="invoiceItem.description"
-                                          label="Description"
                                           variant="outlined"
                                           required
                                         ></v-text-field>
                                       </v-col>
                                       <v-col cols="12" sm="3">
+                                        <label for="">{{ $t("price") }}</label>
                                         <v-text-field
                                           v-model="invoiceItem.price"
-                                          label="Price"
                                           variant="outlined"
                                           required
                                         ></v-text-field>
                                       </v-col>
                                       <v-col cols="12" sm="3">
+                                        <label for="">{{ $t("qt") }}</label>
                                         <v-text-field
                                           v-model="invoiceItem.quantity"
-                                          label="Quantity"
                                           variant="outlined"
                                           required
                                         ></v-text-field>
@@ -282,14 +287,14 @@
                                     color=""
                                     @click="displayingEditItemDialog = false"
                                   >
-                                    Close
+                                    {{ $t("close") }}
                                   </v-btn>
                                   <v-btn
                                     color="#f9af23 darken-1"
                                     style="background: #f9af23"
                                     @click="addInvoiceItem(invoiceItem)"
                                   >
-                                    ADD ITEM
+                                    {{ $t("addItem") }}
                                   </v-btn>
                                 </v-card-actions>
                               </v-card>
@@ -302,14 +307,14 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="" @click="displayingUpdateDialog = false">
-                      Close
+                      {{ $t("close") }}
                     </v-btn>
                     <v-btn
                       color="#f9af23 darken-1"
                       style="background: #f9af23"
                       @click="updateInvoice"
                     >
-                      Update
+                      {{ $t("update") }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -335,9 +340,7 @@
                   </v-btn>
                 </template>
                 <v-card class="rounded-lg">
-                  <v-card-title
-                    >Are you sure you want to delete this invoice ?
-                  </v-card-title>
+                  <v-card-title>{{ $t("deleteQue") }} </v-card-title>
                   <v-card-text>
                     <v-dialog
                       v-model="deleteLoading"
@@ -347,7 +350,7 @@
                     >
                       <v-card color="#ffde59" dark>
                         <v-card-text>
-                          Deleting Invoice ...
+                          <!-- Deleting Invoice ... -->
                           <v-progress-linear
                             indeterminate
                             color="white"
@@ -363,13 +366,13 @@
                       color="#f9af23 darken-1"
                       text
                       @click="displayingDeleteDialog = false"
-                      >Cancel</v-btn
+                      >{{ $t("close") }}</v-btn
                     >
                     <v-btn
                       color="#f9af23 darken-1"
                       style="background: #f9af23"
                       @click="deleteInvoice"
-                      >Yes</v-btn
+                      >{{ $t("yes") }}</v-btn
                     >
                     <v-spacer></v-spacer>
                   </v-card-actions>
@@ -405,6 +408,7 @@ export default {
   name: "ProductCard",
   data() {
     return {
+      label: "",
       clientName: null,
       displayingDeleteDialog: false,
       updateLoading: false,
@@ -440,6 +444,8 @@ export default {
   },
   mounted() {
     this.editInvoice(this.invoice.id);
+    this.label =
+      localStorage.getItem("lang") == "en" ? "Paid Status" : "Statut de payant";
   },
   computed: {
     ...mapState({
@@ -522,7 +528,10 @@ export default {
               this.$store.dispatch("setDisplayingDialog", false);
               this.$store.dispatch("setSnackBar", {
                 color: "#ffde59",
-                text: "Invoice was updated successfully!",
+                text:
+                  localStorage.getItem("lang") == "en"
+                    ? "Invoice was updated successfully!"
+                    : "La facture à été modifiée avec succès",
                 show: true,
               });
             }
@@ -633,7 +642,10 @@ export default {
             this.displayingDeleteDialog = false;
             this.$store.dispatch("setSnackBar", {
               color: "#ffde59",
-              text: "Invoice was deleted successfully!",
+              text:
+                localStorage.getItem("lang") == "en"
+                  ? "Invoice was deleted successfully!"
+                  : "La facture à été supprimée avec succès",
               show: true,
             });
           }

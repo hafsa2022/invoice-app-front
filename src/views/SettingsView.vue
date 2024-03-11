@@ -1,12 +1,12 @@
 <template>
   <v-container class="mt-4">
-    <h1>Settings</h1>
+    <h1>{{ $t("settings") }}</h1>
     <v-card class="rounded-lg mt-5 pt-5">
       <v-card-text>
         <v-dialog v-model="loading" hide-overlay persistent width="300">
           <v-card color="#ffde59" dark>
             <v-card-text>
-              Updating User Info ...
+              <!-- Updating User Info ... -->
               <v-progress-linear
                 indeterminate
                 color="white"
@@ -18,10 +18,10 @@
         <v-container>
           <v-row>
             <v-col cols="12" class="pa-0 mb-4"
-              ><h3>Profile Details</h3>
-              <span>Enter your Information</span></v-col
+              ><h3>{{ $t("profildetails") }}</h3>
+              <span>{{ $t("profildetails2") }}</span></v-col
             >
-            <v-col cols="12" class="pa-0">
+            <!-- <v-col cols="12" class="pa-0">
               <label for="profile_img">Profile Image</label>
               <v-file-input
                 v-model="form.img"
@@ -31,9 +31,9 @@
                 id="profile_img"
                 class="mt-2 rounded-lg"
               ></v-file-input>
-            </v-col>
+            </v-col> -->
             <v-col cols="6" class="pa-0 pr-4">
-              <label for="name">Name</label>
+              <label for="name">{{ $t("name") }}</label>
               <v-text-field
                 id="name"
                 v-model="form.name"
@@ -57,7 +57,7 @@
               />
             </v-col> -->
             <v-col cols="6" class="pa-0 pl-4">
-              <label for="email">Email Adrdress</label>
+              <label for="email">{{ $t("email") }}</label>
               <v-text-field
                 id="email"
                 v-model="form.email"
@@ -71,7 +71,7 @@
               />
             </v-col>
             <v-col cols="6" class="pa-0 pr-4">
-              <label for="phone_number">Phone Number</label>
+              <label for="phone_number">{{ $t("numberPhon") }}</label>
               <v-text-field
                 id="phone_number"
                 v-model="form.phoneNumber"
@@ -79,16 +79,15 @@
                 type="text"
                 color="#f9af23"
                 variant="outlined"
-                placeholder="Phone Number"
               />
             </v-col>
           </v-row>
           <v-row class="">
             <v-col cols="12" class="pa-0 mb-4"
-              ><h3>Regional Settings</h3>
-              <span>Set your language and timezone</span></v-col
+              ><h3>{{ $t("paraReg") }}</h3>
+              <span>{{ $t("paraReg2") }}</span></v-col
             ><v-col cols="6" class="pa-0 pr-4">
-              <label for="language">Language</label>
+              <label for="language">{{ $t("lang") }}</label>
               <v-select
                 :items="languages"
                 v-model="form.language"
@@ -96,15 +95,16 @@
                 class="mt-1 rounded-lg"
               ></v-select>
             </v-col>
-            <v-col cols="6" class="pa-0 pl-4">
+            <!-- <v-col cols="6" class="pa-0 pl-4">
               <label for="timezone">Timezone</label>
               <v-select
                 :items="timezones"
                 v-model="form.timezone"
                 variant="outlined"
                 class="mt-1 rounded-lg"
-              ></v-select> </v-col></v-row
-        ></v-container>
+              ></v-select> </v-col> -->
+          </v-row></v-container
+        >
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -115,7 +115,7 @@
           style="background: #f9af23"
           class="mr-3"
         >
-          Edit
+          {{ $t("update") }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -146,11 +146,10 @@ export default {
         name: null,
         email: null,
         phoneNumber: null,
-        language: "English",
-        timezone: "GMT +2:00",
+        language: null,
+        // timezone: "GMT +2:00",
       },
-      languages: ["English", "French"],
-      timezones: ["GMT +2:00"],
+      languages: ["en", "fr"],
       loading: false,
       nameError: null,
       emailError: null,
@@ -165,6 +164,10 @@ export default {
     let user = JSON.parse(localStorage.getItem("user"));
     this.form.name = user.name;
     this.form.email = user.email;
+    this.form.language =
+      localStorage.getItem("lang") != null
+        ? localStorage.getItem("lang")
+        : localStorage.setItem("lang", "en");
   },
   methods: {
     closeSnackbar() {
@@ -191,18 +194,23 @@ export default {
       formData.append("name", this.form.name);
       formData.append("email", this.form.email);
       formData.append("phone_number", this.form.phoneNumber);
-      formData.append("image", this.form.img[0]);
+      formData.append("language", this.form.language);
 
       User.updateInfo(formData)
         .then((response) => {
           if (response != null) {
+            localStorage.setItem("lang", this.form.language);
             this.loading = false;
             this.$store.dispatch("setUserInfo", response.data);
             this.$store.dispatch("setSnackBar", {
               color: "#ffde59",
-              text: "User Info was updated successfully!",
+              text:
+                localStorage.getItem("lang") == "en"
+                  ? "User Info was updated successfully!"
+                  : "Les informations utilisateur ont été mises à jour avec succès",
               show: true,
             });
+            location.reload();
           }
         })
         .catch((err) => {

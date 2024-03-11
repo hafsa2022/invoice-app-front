@@ -12,7 +12,7 @@
           <v-dialog v-model="loading" hide-overlay persistent width="300">
             <v-card color="#ffde59" dark>
               <v-card-text>
-                Adding Invoice ...
+                <!-- Adding Invoice ... -->
                 <v-progress-linear
                   indeterminate
                   color="white"
@@ -23,7 +23,9 @@
           </v-dialog>
           <v-container>
             <v-row class="text-center"
-              ><v-col cols="12"><h3>Add Invoice</h3></v-col></v-row
+              ><v-col cols="12"
+                ><h3>{{ $t("addInvoice") }}</h3></v-col
+              ></v-row
             >
             <v-row>
               <v-col cols="12" class="pa-0">
@@ -40,7 +42,7 @@
                 ></v-select>
               </v-col>
               <v-col cols="12" class="pa-0">
-                <label for="name">Car</label>
+                <label for="name">{{ $t("car") }}</label>
                 <v-select
                   :items="cars"
                   v-model="form.car_id"
@@ -67,7 +69,7 @@
                 />
               </v-col>
               <v-col cols="12" class="pa-0">
-                <label for="name">Due Date</label>
+                <label for="name">{{ $t("dueDate") }}</label>
                 <v-text-field
                   id="name"
                   v-model="form.dueDate"
@@ -79,7 +81,7 @@
                 />
               </v-col>
               <v-col cols="12" class="pa-0">
-                <label for="advance">Advance</label>
+                <label for="advance">{{ $t("advance") }}</label>
                 <v-text-field
                   id="advance"
                   v-model="form.advance"
@@ -93,7 +95,7 @@
                 />
               </v-col>
               <v-col cols="12" class="pa-0">
-                <label for="amount">Amount</label>
+                <label for="amount">{{ $t("amount") }}</label>
                 <v-text-field
                   id="amount"
                   v-model="form.amount"
@@ -108,7 +110,7 @@
                 />
               </v-col>
               <v-col cols="12" class="pa-0">
-                <label for="name">Payment Method</label>
+                <label for="name">{{ $t("payMeth") }}</label>
                 <v-select
                   :items="paymentMethods"
                   v-model="form.paymentMethod"
@@ -124,29 +126,31 @@
               <v-col cols="12" class="pa-0">
                 <v-checkbox
                   v-model="form.paidStatus"
-                  label="Paid Status"
+                  :label="label"
                   :error-messages="paidStatusError"
                   @input="resetErrorValue"
                 ></v-checkbox>
               </v-col>
-
-              <v-text-field
-                v-model="form.memo"
-                label="Memo"
-                variant="outlined"
-                class="mt-1 rounded-lg"
-                type="text"
-                color="#f9af23"
-              ></v-text-field>
+              <v-col cols="12" class="pa-0">
+                <label for="">{{ $t("memo") }}</label>
+                <v-text-field
+                  v-model="form.memo"
+                  variant="outlined"
+                  class="mt-1 rounded-lg"
+                  type="text"
+                  color="#f9af23"
+                ></v-text-field>
+              </v-col>
 
               <v-col cols="12" class="pa-0">
-                <h3>Invoice Items:</h3>
+                <h3>{{ $t("invItems") }}</h3>
                 <v-table v-if="invoiceItems.length > 0">
                   <thead>
                     <tr>
-                      <th class="text-left">Description</th>
-                      <th class="text-left">Quantity</th>
-                      <th class="text-left">Unit Price</th>
+                      <th class="text-left">{{ $t("des") }}</th>
+
+                      <th class="text-left">{{ $t("price") }}</th>
+                      <th class="text-left">{{ $t("qt") }}</th>
                       <th class="text-left">Total</th>
                       <th class="text-left"></th>
                     </tr>
@@ -191,7 +195,7 @@
                             color="#f9af23"
                             @click="displayingItemDialog = true"
                             min-width="164"
-                            >Add Item
+                            >{{ $t("addItem") }}
                           </v-btn>
                         </v-col>
                       </v-row>
@@ -201,25 +205,25 @@
                         <v-container>
                           <v-row
                             ><v-col cols="12" sm="6">
+                              <label for="">{{ $t("des") }}</label>
                               <v-text-field
                                 v-model="invoiceItem.description"
-                                label="Description"
                                 variant="outlined"
                                 required
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="3">
+                              <label for="">{{ $t("price") }}</label>
                               <v-text-field
                                 v-model="invoiceItem.price"
-                                label="Price"
                                 variant="outlined"
                                 required
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="3">
+                              <label for="">{{ $t("qt") }}</label>
                               <v-text-field
                                 v-model="invoiceItem.quantity"
-                                label="Quantity"
                                 variant="outlined"
                                 required
                               ></v-text-field>
@@ -229,14 +233,14 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="" @click="displayingItemDialog = false">
-                          Close
+                          {{ $t("close") }}
                         </v-btn>
                         <v-btn
                           color="#f9af23 darken-1"
                           style="background: #f9af23"
                           @click="addInvoiceItem(invoiceItem)"
                         >
-                          ADD ITEM
+                          {{ $t("addItem") }}
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -249,7 +253,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="#f9af23 darken-1" text @click="hideDialog">
-            Close
+            {{ $t("close") }}
           </v-btn>
           <v-btn
             color="#f9af23 darken-1"
@@ -257,7 +261,7 @@
             @click="addInvoice"
             style="background: #f9af23"
           >
-            Add
+            {{ $t("add") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -273,7 +277,7 @@
             v-bind="attrs"
             @click="closeSnackbar"
           >
-            Close
+            {{ $t("close") }}
           </v-btn>
         </template>
       </v-snackbar>
@@ -287,6 +291,7 @@ export default {
   name: "addInvoice",
   data() {
     return {
+      label: "",
       loading: false,
       form: {
         client_id: null,
@@ -317,7 +322,10 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() {
+    this.label =
+      localStorage.getItem("lang") == "en" ? "Paid Status" : "Statut de payant";
+  },
   computed: {
     ...mapState({
       snackbar: (state) => state.snackbar,
@@ -383,7 +391,10 @@ export default {
               this.$store.dispatch("setDisplayingDialog", false);
               this.$store.dispatch("setSnackBar", {
                 color: "#ffde59",
-                text: "Invoice was added successfully!",
+                text:
+                  localStorage.getItem("lang") == "en"
+                    ? "Invoice was added successfully!"
+                    : "La facture à été ajoutée avec succès",
                 show: true,
               });
             }

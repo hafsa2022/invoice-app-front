@@ -41,6 +41,7 @@ export default createStore({
       let token = data.data.original.token;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(data.data.original.user));
+      // localStorage.setItem("lang", data.data.original.lang);
       state.token = token;
       state.user = data.data.original.user;
     },

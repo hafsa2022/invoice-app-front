@@ -20,7 +20,7 @@
             style="background: #f9af23"
             elevation="0"
           >
-            Home
+            {{ $t("home") }}
           </v-btn></v-list-item
         >
         <v-list-item>
@@ -32,7 +32,7 @@
             style="background: #f9af23"
             elevation="0"
           >
-            Settings
+            {{ $t("settings") }}
           </v-btn></v-list-item
         >
         <v-list-item>
@@ -44,7 +44,7 @@
             style="background: #f9af23"
             elevation="0"
           >
-            Logout
+            {{ $t("logout") }}
           </v-btn></v-list-item
         >
       </v-list>

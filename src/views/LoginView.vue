@@ -27,7 +27,7 @@
             <v-dialog v-model="loading" hide-overlay persistent width="300">
               <v-card color="#ffde59" dark>
                 <v-card-text>
-                  Login ...
+                  <!-- Login ... -->
                   <v-progress-linear
                     indeterminate
                     color="white"
@@ -39,7 +39,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" class="pa-0">
-                  <label for="email">Email address</label>
+                  <label for="email">{{ $t("email") }}</label>
                   <v-text-field
                     id="email"
                     v-model="form.email"
@@ -47,19 +47,17 @@
                     type="email"
                     color="#f9af23"
                     variant="outlined"
-                    placeholder="Email address"
                     autofocus
                     @input="resetErrorValue"
                     :rules="required"
                   />
                 </v-col>
                 <v-col cols="12" class="pa-0">
-                  <label for="password">Password</label>
+                  <label for="password">{{ $t("password") }}</label>
                   <v-text-field
                     id="password"
                     v-model="form.password"
                     class="mt-1 rounded-lg"
-                    placeholder="Enter password"
                     color="#f9af23"
                     variant="outlined"
                     type="password"
@@ -73,11 +71,11 @@
                     type="submit"
                     block
                     class="mt-2 mb-3"
-                    text="Login"
                     size="large"
                     color="#f9af23"
                     @click="login"
-                  ></v-btn>
+                    >{{ $t("login") }}</v-btn
+                  >
                 </v-col>
                 <!-- <v-col cols="12" class="pa-0">
                   <span class="text-h6">Don't have an account ?</span>
@@ -147,7 +145,10 @@ export default {
               this.loading = false;
               this.$store.dispatch("setSnackBar", {
                 color: "#ffde59",
-                text: "Welcome to our website!",
+                text:
+                  localStorage.getItem("lang") == "en"
+                    ? "Welcome to our website!"
+                    : "Bienvenu dans notre site",
                 show: true,
               });
               this.$router.replace(this.$route.query.redirect || "/home");
@@ -162,7 +163,10 @@ export default {
             }
           });
       } else {
-        this.error = "Email and Password are required";
+        this.error =
+          localStorage.getItem("lang") == "en"
+            ? "Email and Password are required"
+            : "Email et le mot de passe sont obligatoire";
       }
     },
     closeSnackbar() {

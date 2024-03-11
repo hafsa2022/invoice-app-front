@@ -8,7 +8,7 @@
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
-              label="Search by name"
+              :label="label"
               single-line
               hide-details
               variant="outlined"
@@ -20,9 +20,9 @@
     </v-row>
     <v-row justify="center" class="mb-8 px-6">
       <v-col lg="3" md="3" sm="4"
-        ><v-btn v-if="auth" block color="#f9af23" @click="addInvoice"
-          >Add Invoice</v-btn
-        ></v-col
+        ><v-btn v-if="auth" block color="#f9af23" @click="addInvoice">{{
+          $t("addInvoice")
+        }}</v-btn></v-col
       >
     </v-row>
     <v-container>
@@ -33,7 +33,7 @@
           :invoice="invoice"
       /></v-row>
       <div v-else>
-        <h2 class="text-center">Invoices not found</h2>
+        <h2 class="text-center">{{ $t("inNotFound") }}</h2>
       </div>
     </v-container>
   </div>
@@ -51,6 +51,7 @@ export default {
       selectedLanguage: "en",
       search: "",
       searchedCards: [],
+      label: "",
     };
   },
   components: {
@@ -63,6 +64,10 @@ export default {
     this.$store.dispatch("getClients");
     this.$store.dispatch("getCars");
     this.$store.dispatch("getSettings", user.compagny_id);
+    this.label =
+      localStorage.getItem("lang") == "en"
+        ? "Search by name"
+        : "Rechercher par nom";
   },
   computed: {
     ...mapState({
