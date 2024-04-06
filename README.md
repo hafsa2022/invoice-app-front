@@ -1,4 +1,4 @@
-# location-car
+# Invoice App
 
 ## Project setup
 ```
