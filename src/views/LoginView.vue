@@ -141,7 +141,7 @@ export default {
         };
         User.login(params)
           .then((response) => {
-            if (response != null) {
+            if (response != null && response.data.original.error == undefined) {
               this.loading = false;
               this.$store.dispatch("setSnackBar", {
                 color: "#ffde59",
@@ -152,7 +152,11 @@ export default {
                 show: true,
               });
               this.$router.replace(this.$route.query.redirect || "/home");
+              console.log("res", response);
               this.logIn(response);
+            } else {
+              this.error = response.data.original.error;
+              this.loading = false;
             }
           })
           .catch((err) => {
